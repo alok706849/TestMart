@@ -3,254 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reasoning Master Pro</title>
+    <title>Reasoning Pro - 10,000+ Questions</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
+        /* AAPKA PASANDIDA MODERN STYLE - NO CHANGES */
         :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
             --accent: #00f2fe;
-            --white: #ffffff;
+            --primary-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --text: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f172a; /* Deep Dark Background */
+            background: #0f172a;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(118, 75, 162, 0.3) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, rgba(102, 126, 234, 0.3) 0, transparent 50%);
-            color: var(--white);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.2) 0, transparent 50%);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: flex; justify-content: center; align-items: center; padding: 20px;
         }
 
-        /* --- Glassmorphism Card --- */
-        .quiz-container {
+        .container {
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            width: 100%;
-            max-width: 600px;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%; max-width: 650px;
+            padding: 40px; border-radius: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .badge { background: rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--glass-border); }
+        .timer { color: var(--accent); font-weight: 800; font-size: 1.3rem; text-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
 
-        .progress-tag {
-            background: rgba(255,255,255,0.15);
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .question-text { font-size: 1.6rem; font-weight: 700; line-height: 1.4; margin-bottom: 35px; }
 
-        .timer-box {
-            color: var(--accent);
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .question-text {
-            font-size: 1.6rem;
-            font-weight: 800;
-            line-height: 1.3;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        /* --- Stylish Options --- */
-        .options-grid {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .option-card {
-            background: rgba(255, 255, 255, 0.05);
+        .options-list { display: grid; gap: 15px; margin-bottom: 35px; }
+        .option {
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--glass-border);
-            padding: 18px 25px;
-            border-radius: 18px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 1.1rem;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            padding: 22px; border-radius: 22px;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.15rem; display: flex; align-items: center;
         }
 
-        .option-card:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateX(8px);
-            border-color: var(--accent);
+        .option:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.02); border-color: var(--accent); }
+        .option.selected { background: var(--primary-grad); border-color: transparent; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4); }
+
+        .btn-action {
+            width: 100%; background: var(--text); color: #0f172a;
+            border: none; padding: 20px; border-radius: 22px;
+            font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: 0.3s;
         }
 
-        .option-card.selected {
-            background: var(--primary-gradient);
-            border-color: transparent;
-            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4);
-            transform: scale(1.02);
-        }
+        .btn-action:hover:not(:disabled) { background: var(--accent); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 242, 254, 0.4); }
+        .btn-action:disabled { opacity: 0.1; cursor: not-allowed; }
 
-        /* --- Action Button --- */
-        .btn-next {
-            width: 100%;
-            background: var(--white);
-            color: #1e293b;
-            border: none;
-            padding: 18px;
-            border-radius: 18px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-next:hover:not(:disabled) {
-            background: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-        }
-
-        .btn-next:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        /* --- Result Screen --- */
-        .result-screen { text-align: center; display: none; }
+        #result-box { text-align: center; display: none; }
         .score-circle {
-            width: 150px;
-            height: 150px;
-            border: 8px solid var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 30px auto;
-            font-size: 3rem;
-            font-weight: 800;
-            background: rgba(255,255,255,0.05);
+            width: 160px; height: 160px; border: 6px solid var(--accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 30px auto; font-size: 3.5rem; font-weight: 800;
+            background: rgba(255,255,255,0.05); box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
         }
-
     </style>
 </head>
 <body>
 
-    <div class="quiz-container">
-        <div id="quiz-box">
-            <div class="header">
-                <span id="progress-text" class="progress-tag">Q. 1 / 20</span>
-                <div class="timer-box">
-                    <span id="time">10:00</span>
-                </div>
-            </div>
-
-            <div id="question-text" class="question-text">Taiyar ho jaiye... Loading Reasoning Challenge!</div>
-
-            <div id="options-grid" class="options-grid"></div>
-
-            <button id="next-btn" class="btn-next" onclick="nextQuestion()" disabled>AGLA SAWAL</button>
+<div class="container">
+    <div id="quiz-box">
+        <div class="header">
+            <span class="badge" id="progress">Q. 1 / 20</span>
+            <div class="timer" id="time">10:00</div>
         </div>
-
-        <div id="result-box" class="result-screen">
-            <h2 style="font-size: 2.2rem;">Khel Samapt!</h2>
-            <div class="score-circle"><span id="final-score">0</span></div>
-            <p style="margin-bottom: 30px; opacity: 0.8;">Aapne behtareen performance di hai.</p>
-            <button onclick="location.reload()" class="btn-next">PHIR SE KHELEIN</button>
-        </div>
+        <div class="question-text" id="q-text">Loading...</div>
+        <div id="options-grid" class="options-list"></div>
+        <button class="btn-action" id="next-btn" onclick="handleNext()" disabled>AGLA SAWAL</button>
     </div>
 
-    <script>
-        // Yaha aap apne 10,000 sawal paste kar sakte hain
-        const masterDatabase = [
-            { q: "Agar 'RED' ko '6720' likha jata hai, to 'GREEN' ko kya likhenge?", a: ["167171120", "1677199", "920077", "445566"], correct: 0 },
-            { q: "Relationship: Ek tasveer ki taraf ishara karte hue Ram ne kaha, 'Wo mere baap ke bete ki beti hai'. Ram usse kaise related hai?", a: ["Pita", "Chacha", "Bhai", "Dada"], correct: 0 },
-            { q: "Series: 1, 9, 25, 49, ?", a: ["64", "81", "100", "121"], correct: 1 },
-            { q: "Odd one out: January, May, July, November?", a: ["January", "May", "July", "November"], correct: 3 },
-            // ... Baaki 9,996 sawal yaha aayenge
-        ];
+    <div id="result-box">
+        <h2 style="font-size: 2.2rem;">Test Complete</h2>
+        <div class="score-circle" id="final-score">0</div>
+        <button class="btn-action" onclick="location.reload()">TRY NEW SET</button>
+    </div>
+</div>
 
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let timeLeft = 600;
-        let timerInterval;
-        let selectedAnswer = null;
+<script>
+    // --- YAHAN APNE 10,000 QUESTIONS DALEN ---
+    const masterDB = [
+ { q: "Rythanna Meecosam' initiative kis state se juda hai?", a: ["Telangana", "Andhra Pradesh", "Karnataka", "Kerala"], c: Option B },
+ { q: "Aapki Yojana, Aapki Sarkar, Aapke Dwar' kisne shuru kiya?", a: ["Jharkhand", "Bihar", "Odisha", "West Bengal"], c: Option A },
+ { q: "Mukh Mantri Teerth Yatra Yojana kis state ki hai?", a: ["Haryana", "Rajasthan", "Punjab", "Madhya Pradesh"], c: Option C },
+ { q: "Apki Poonji Apka Adhikar' campaign kiske dwara launch kiya gaya?", a: ["Amit Shah", "Narendra Modi", "Nirmala Sitharaman", "Rajnath Singh"], c: Option C },
+ { q: "Shradhanjali' Yojana kis state government ki hai?", a: ["Assam", "Sikkim", "Manipur", "Nagaland"], c: Option A },
+ { q: "Mhaje Ghar' Yojana kis state se sambandhit hai?", a: ["Maharashtra", "Goa", "Gujarat", "Karnataka"], c: Option B },
+ { q: "Arunodai 3.0' Yojana kisne shuru ki?", a: ["Assam", "West Bengal", "Tripura", "Meghalaya"], c: Option A },
+ { q: "Mukhyamantri Mahila Rojgar Yojana kis state ki hai?", a: ["Uttar Pradesh", "Bihar", "Jharkhand", "Madhya Pradesh"], c: Option B },
+ { q: "Lado Laxmi' Yojana kis state government ki hai?", a: ["Rajasthan", "Haryana", "Punjab", "Gujarat"], c: Option B },
+ { q: "Matru Van' Initiative kis state se juda hai?", a: ["Haryana", "Punjab", "UP", "MP"], c: Option A },
+ { q: "Nijut Moina Yojana 2.0 kis state ki scheme hai?", a: ["Manipur", "Assam", "Arunachal Pradesh", "Mizoram"], c: Option B },
+ { q: "Thayumanavar Yojana kis state ne launch ki hai?", a: ["Kerala", "Tamil Nadu", "Andhra Pradesh", "Telangana"], c: Option B },
+ { q: "Apna Ghar' Initiative kis Ministry ke antargat aata hai?", a: ["Home Ministry", "Finance Ministry", "Petroleum Ministry", "Defence Ministry"], c: Option C },
+ { q: "Shram Shree Yojana kis state ki hai?", a: ["West Bengal", "Bihar", "Odisha", "Jharkhand"], c: Option A },
+ { q: "One Road-One Day' Scheme kisne shuru ki?", a: ["Mumbai", "Delhi Govt.", "Bangalore", "Kolkata"], c: Option B },
+ { q: "Chief Minister Pratigya Scheme kis state ki hai?", a: ["Bihar", "UP", "MP", "Rajasthan"], c: Option A },
+ { q: "Chief Minister Vrindavan Gram Yojana kaha ki hai?", a: ["Rajasthan", "UP", "MP", "Haryana"], c: Option C },
+ { q: "D. Upadhyaya Garibi Mukt Gaon Yojana kisne shuru ki?", a: ["Gujarat", "Rajasthan", "MP", "Bihar"], c: Option B },
+ { q: "Jan Suraksha Satisfaction Campaign kisne chalaya?", a: ["Maharashtra", "Gujarat", "MP", "Rajasthan"], c: Option B },
+ { q: "Raj Bhavan Annadhan Scheme kis state ki hai?", a: ["Goa", "Kerala", "Tamil Nadu", "Karnataka"], c: Option A },
+ { q: "CM Guru-Shishya Parampara Scheme kaha ki hai?", a: ["Bihar", "Jharkhand", "UP", "Odisha"], c: Option A },
+ { q: "Vivah Mandap Scheme kis state government ki hai?", a: ["UP", "Bihar", "MP", "Rajasthan"], c: Option B },
+ { q: "Thalliki Vandanam Scheme kis state se sambandhit hai?", a: ["Telangana", "Andhra Pradesh", "Tamil Nadu", "Kerala"], c: Option B },
+ { q: "KUSUM-C scheme kis state mein lagu hai?", a: ["Karnataka", "Maharashtra", "Gujarat", "Rajasthan"], c: Option A },
+ { q: "Afforestation project 'Vithoot' kis state ka hai?", a: ["Kerala", "Tamil Nadu", "Karnataka", "Andhra Pradesh"], c: Option A },
+ { q: "ANKUR' initiative kis state ka hai?", a: ["West Bengal", "Odisha", "Bihar", "MP"], c: Option B },
+ { q: "Jyoti Yojana kis state ki scheme hai?", a: ["Kerala", "Karnataka", "Telangana", "AP"], c: Option A },
+ { q: "Ek Desh Ek Dhadkan Campaign kis Ministry ka hai?", a: ["Ministry of Home", "Ministry of Culture", "Ministry of Education", "Ministry of AYUSH"], c: Option B },
+ { q: "Indira Soura Giri Jala Vikasama Yojana kaha ki hai?", a: ["Andhra Pradesh", "Telangana", "Karnataka", "Kerala"], c: Option B },
+ { q: "Ek Parivar Ek Udyami Campaign kis state ka hai?", a: ["Andhra Pradesh", "Telangana", "Tamil Nadu", "Karnataka"], c: Option A },
+ { q: "Viksit Krishi Sankalp Abhiyan kis state ka hai?", a: ["Tripura", "Assam", "Sikkim", "Manipur"], c: Option A },
+ { q: "Sagar Mein Samman kis Ministry se juda hai?", a: ["Home Ministry", "Ministry of Transport-Waterways", "Finance Ministry", "Defence Ministry"], c: Option B },
+ { q: "Mahila Samvad Abhiyan kis state government ka hai?", a: ["Bihar", "Jharkhand", "UP", "MP"], c: Option A },
+ { q: "National Karmayogi Jan Seva Program kis Ministry ka hai?", a: ["Ministry of Health", "Ministry of AYUSH", "Ministry of Railways", "Ministry of Culture"], c: Option B },
+ { q: "Pink E-Rickshaw Scheme kis state ki hai?", a: ["Maharashtra", "Delhi", "Gujarat", "Karnataka"], c: Option A },
+ { q: "Zero Poverty - P4' Initiative kis state ka hai?", a: ["Andhra Pradesh", "Kerala", "Tamil Nadu", "Karnataka"], c: Option A },
+ { q: "CM Girl Child Prosperity Scheme kis state ki hai?", a: ["Tripura", "Manipur", "Meghalaya", "Nagaland"], c: Option A },
+ { q: "PARTH Yojana kis state ki hai?", a: ["Rajasthan", "Madhya Pradesh", "Gujarat", "Haryana"], c: Option B },
+ { q: "Arunodai' scheme ka version 3.0 kisne launch kiya?", a: ["Himanta Biswa Sarma", "Nitish Kumar", "Mamata Banerjee", "Hemant Soren"], c: Option A },
+ { q: "Petroleum Ministry ne kaunsa initiative shuru kiya?", a: ["Apna Ghar", "Shram Shree", "Jyoti Yojana", "Matru Van"], c: Option A },
+ { q: "Bihar Govt ne inme se kaunsi yojana shuru ki?", a: ["Lado Laxmi", "Mahila Samvad Abhiyan", "PARTH", "KUSUM-C"], c: Option B },
+ { q: "Andhra Pradesh ki 'P4' initiative ka main focus kya hai?", a: ["Zero Poverty", "Education", "Health", "Industry"], c: Option A },
+ { q: "Rajasthan ki kaunsi yojana garibi mukti ke liye hai?", a: ["D. Upadhyaya Garibi Mukt Gaon", "Shradhanjali", "Vithoot", "Ankur"], c: Option A },
+ { q: "Goa mein 'Annadhan' kahan se shuru kiya gaya?", a: ["Raj Bhavan", "Chief Minister Office", "Vidhan Sabha", "Mandir"], c: Option A },
+ { q: "Madhya Pradesh ki Gram yojana ka naam kya hai?", a: ["Vrindavan Gram Yojana", "Shram Gram", "Viksit Gram", "Adarsh Gram"], c: Option A },
+ { q: "Ministry of Culture ka campaign kaunsa hai?", a: ["Ek Desh Ek Dhadkan", "Pink E-Rickshaw", "Jyoti Yojana", "Apna Ghar"], c: Option A },
+ { q: "Vithoot' project kis cheez se juda hai?", a: ["Afforestation", "Digital Literacy", "Health Care", "Skill Dev"], c: Option A },
+ { q: "Jharkhand Govt. ki popular yojana 'Aapke Dwar' ka poora naam?", a: ["Aapki Yojana, Aapki Sarkar, Aapke Dwar", "Hamar Sarkar", "Jan Seva", "CM Help"], c: Option A },
+ { q: "Punjab Govt ki yojana inme se kaunsi hai?", a: ["Mukh Mantri Teerth Yatra", "Nijut Moina", "KUSUM-C", "Vivah Mandap"], c: Option A },
+ { q: "Maharashtra mein E-Rickshaw ka colour kya rakha gaya hai?", a: ["Blue", "Green", "Pink", "Red"], c: Option C },
 
-        function startQuiz() {
-            currentQuestions = masterDatabase.sort(() => 0.5 - Math.random()).slice(0, 20);
-            showQuestion();
-            startTimer();
-        }
+        // ... Niche aap jitne chahe sawal isi format mein jodein
+    ];
 
-        function showQuestion() {
-            const qData = currentQuestions[currentIndex];
-            document.getElementById("progress-text").innerText = `Q. ${currentIndex + 1} / 20`;
-            document.getElementById("question-text").innerText = qData.q;
-            
-            const grid = document.getElementById("options-grid");
-            grid.innerHTML = "";
-            
-            qData.a.forEach((opt, index) => {
-                const card = document.createElement("div");
-                card.className = "option-card";
-                card.innerText = opt;
-                card.onclick = () => selectOption(index, card);
-                grid.appendChild(card);
-            });
-            document.getElementById("next-btn").disabled = true;
-            selectedAnswer = null;
-        }
+    let testSet = [];
+    let currentIdx = 0;
+    let score = 0;
+    let timer = 600;
+    let selected = null;
+    let timerInterval;
 
-        function selectOption(index, card) {
-            selectedAnswer = index;
-            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            document.getElementById("next-btn").disabled = false;
-        }
+    function init() {
+        // Shuffle all and pick 20 random
+        testSet = [...masterDB].sort(() => 0.5 - Math.random()).slice(0, 20);
+        renderQuestion();
+        startTimer();
+    }
 
-        function nextQuestion() {
-            if (selectedAnswer === currentQuestions[currentIndex].correct) score++;
-            currentIndex++;
-            if (currentIndex < 20) showQuestion(); else showResult();
-        }
+    function renderQuestion() {
+        const data = testSet[currentIdx];
+        document.getElementById("progress").innerText = `Q. ${currentIdx + 1} / 20`;
+        document.getElementById("q-text").innerText = data.q;
+        const grid = document.getElementById("options-grid");
+        grid.innerHTML = "";
+        data.a.forEach((opt, i) => {
+            const div = document.createElement("div");
+            div.className = "option";
+            div.innerText = opt;
+            div.onclick = () => {
+                selected = i;
+                document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+                div.classList.add('selected');
+                document.getElementById("next-btn").disabled = false;
+            };
+            grid.appendChild(div);
+        });
+        document.getElementById("next-btn").disabled = true;
+    }
 
-        function showResult() {
-            clearInterval(timerInterval);
-            document.getElementById("quiz-box").style.display = "none";
-            document.getElementById("result-box").style.display = "block";
-            document.getElementById("final-score").innerText = score;
-        }
+    function handleNext() {
+        if (selected === testSet[currentIdx].c) score++;
+        currentIdx++;
+        selected = null;
+        if (currentIdx < 20) renderQuestion(); else showFinal();
+    }
 
-        function startTimer() {
-            const timerEl = document.getElementById("time");
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                let mins = Math.floor(timeLeft / 60);
-                let secs = timeLeft % 60;
-                timerEl.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                if (timeLeft <= 0) showResult();
-            }, 1000);
-        }
+    function showFinal() {
+        clearInterval(timerInterval);
+        document.getElementById("quiz-box").style.display = "none";
+        document.getElementById("result-box").style.display = "block";
+        document.getElementById("final-score").innerText = `${score}/20`;
+    }
 
-        startQuiz();
-    </script>
+    function startTimer() {
+        const timerEl = document.getElementById("time");
+        timerInterval = setInterval(() => {
+            timer--;
+            let m = Math.floor(timer / 60);
+            let s = timer % 60;
+            timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (timer <= 0) showFinal();
+        }, 1000);
+    }
+
+    init();
+</script>
 </body>
 </html>
