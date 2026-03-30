@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reasoning Mock Test - 20 Questions</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .quiz-container { background: white; width: 100%; max-width: 600px; padding: 30px; border-radius: 15px; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .timer { font-weight: bold; color: #dc2626; font-size: 1.2rem; }
+        .question { font-size: 1.3rem; margin-bottom: 20px; font-weight: 600; }
+        .option { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; text-align: left; background: none; }
+        .option:hover { background: #eff6ff; border-color: var(--primary); }
+        .option.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-next { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; float: right; font-size: 1rem; }
+        .result-screen { text-align: center; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div id="quiz-box">
+        <div class="header">
+            <span id="q-count">Question 1/20</span>
+            <div class="timer">Time: <span id="time">10:00</span></div>
+        </div>
+        <div id="question-text" class="question">Loading Question...</div>
+        <div id="options-container"></div>
+        <button class="btn-next" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="result-box" class="result-screen">
+        <h2>Test Complete!</h2>
+        <p style="font-size: 2rem;">Score: <span id="final-score">0</span>/20</p>
+        <button onclick="location.reload()" class="btn-next" style="float:none">Retake Test</button>
+    </div>
+</div>
+
+<script>
+    // 10,000 Questions Ka Example Format
+    // Aap yaha apne questions add kar sakte hain
+    const masterDatabase = [
+        { q: "Agar A = 1, B = 2 hai, to C kya hoga?", a: ["3", "4", "5", "6"], correct: 0 },
+        { q: "Blood Relation: Mere pita ka beta mera kya laga?", a: ["Bhai", "Chacha", "Mama", "Dada"], correct: 0 },
+        { q: "Series: 2, 4, 6, 8, ?", a: ["9", "10", "11", "12"], correct: 1 },
+        // ... Yaha aap 10,000 tak data paste kar sakte hain
+    ];
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let timeLeft = 600; // 10 minutes (in seconds)
+
+    function startQuiz() {
+        // Master DB se 20 random questions uthana
+        currentQuestions = masterDatabase.sort(() => 0.5 - Math.random()).slice(0, 20);
+        showQuestion();
+        startTimer();
+    }
+
+    function showQuestion() {
+        const qData = currentQuestions[currentIndex];
+        document.getElementById("q-count").innerText = `Question ${currentIndex + 1}/20`;
+        document.getElementById("question-text").innerText = qData.q;
+        
+        const optionsDiv = document.getElementById("options-container");
+        optionsDiv.innerHTML = "";
+        
+        qData.a.forEach((opt, index) => {
+            const btn = document.createElement("button");
+            btn.className = "option";
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(index, btn);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    let selectedAnswer = null;
+    function selectOption(index, btn) {
+        selectedAnswer = index;
+        document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+    }
+
+    function nextQuestion() {
+        if (selectedAnswer === null) return alert("Pehle ek option chunein!");
+        
+        if (selectedAnswer === currentQuestions[currentIndex].correct) score++;
+        
+        selectedAnswer = null;
+        currentIndex++;
+        
+        if (currentIndex < 20) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById("quiz-box").style.display = "none";
+        document.getElementById("result-box").style.display = "block";
+        document.getElementById("final-score").innerText = score;
+    }
+
+    function startTimer() {
+        const timerEl = document.getElementById("time");
+        const interval = setInterval(() => {
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerEl.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                showResult();
+            }
+            timeLeft--;
+        }, 1000);
+    }
+
+    startQuiz();
+</script>
+
+</body>
+</html>
